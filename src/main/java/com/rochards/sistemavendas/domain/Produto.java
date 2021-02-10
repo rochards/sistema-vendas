@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-public class Categoria implements Serializable {
+public class Produto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,13 +23,18 @@ public class Categoria implements Serializable {
     @EqualsAndHashCode.Include
     private Integer id;
     private String nome;
+    private Double preco;
 
-    @ManyToMany(mappedBy = "categorias") // indicando que na classe Produto ha uma variavel chamada categorias
-    private List<Produto> produtos;
+    @ManyToMany
+    @JoinTable(name = "produto_categoria", // tabela de relacionamento
+            joinColumns = @JoinColumn(name = "produto_id"), // FK desta entidade na tabela produto_categoria
+            inverseJoinColumns = @JoinColumn(name = "categoria_id")) // FK da outra entidade na tabela produto_categoria
+    private List<Categoria> categorias;
 
-    public Categoria(Integer id, String nome) {
+    public Produto(Integer id, String nome, Double preco) {
         this.id = id;
         this.nome = nome;
-        this.produtos = new ArrayList<>();
+        this.preco = preco;
+        this.categorias = new ArrayList<>();
     }
 }

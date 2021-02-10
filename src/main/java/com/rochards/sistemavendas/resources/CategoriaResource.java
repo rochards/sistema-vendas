@@ -1,7 +1,12 @@
 package com.rochards.sistemavendas.resources;
 
 import com.rochards.sistemavendas.domain.Categoria;
+import com.rochards.sistemavendas.services.CategoriaService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,13 +15,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping("categorias")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class CategoriaResource {
 
-    @GetMapping
-    public List<Categoria> listar() {
-        Categoria cat1 = new Categoria(1, "Informática");
-        Categoria cat2 = new Categoria(2, "Informática");
+    private final CategoriaService service;
 
-        return Arrays.asList(cat1, cat2);
+    @GetMapping("{id}")
+    public ResponseEntity<Categoria> buscarPorId(@PathVariable Integer id) {
+
+        var categoria = service.buscarPorId(id);
+        if (categoria != null) {
+            return ResponseEntity.ok(categoria);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 }

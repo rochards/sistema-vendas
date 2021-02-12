@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
-import java.util.List;
-
 @RestController
 @RequestMapping("categorias")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -22,12 +19,7 @@ public class CategoriaResource {
 
     @GetMapping("{id}")
     public ResponseEntity<Categoria> buscarPorId(@PathVariable Integer id) {
-
         var categoria = service.buscarPorId(id);
-        if (categoria != null) {
-            return ResponseEntity.ok(categoria);
-        }
-
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(categoria);
     }
 }

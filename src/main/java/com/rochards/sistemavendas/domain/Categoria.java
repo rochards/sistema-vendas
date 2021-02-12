@@ -1,6 +1,6 @@
 package com.rochards.sistemavendas.domain;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -24,6 +24,7 @@ public class Categoria implements Serializable {
     private Integer id;
     private String nome;
 
+    @JsonManagedReference
     @ManyToMany(mappedBy = "categorias") // indicando que na classe Produto ha uma variavel chamada categorias
     private List<Produto> produtos;
 

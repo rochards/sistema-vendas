@@ -1,8 +1,12 @@
 package com.rochards.sistemavendas;
 
 import com.rochards.sistemavendas.domain.Categoria;
+import com.rochards.sistemavendas.domain.Cidade;
+import com.rochards.sistemavendas.domain.Estado;
 import com.rochards.sistemavendas.domain.Produto;
 import com.rochards.sistemavendas.repositories.CategoriaRepository;
+import com.rochards.sistemavendas.repositories.CidadeRepository;
+import com.rochards.sistemavendas.repositories.EstadoRepository;
 import com.rochards.sistemavendas.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -19,6 +23,12 @@ public class SistemaVendasApplication implements CommandLineRunner {
 
 	@Autowired
 	private ProdutoRepository produtoRepository;
+
+	@Autowired
+	private EstadoRepository estadoRepository;
+
+	@Autowired
+	private CidadeRepository cidadeRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SistemaVendasApplication.class, args);
@@ -42,5 +52,14 @@ public class SistemaVendasApplication implements CommandLineRunner {
 
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		produtoRepository.saveAll(Arrays.asList(prod1, prod2, prod3));
+
+		Estado est1 = new Estado(null, "Minas Gerias", "MG");
+		Estado est2 = new Estado(null, "São Paulo", "SP");
+		Cidade cid1 = new Cidade(null, "Uberlândia", est1);
+
+		est1.getCidades().add(cid1);
+
+		estadoRepository.saveAll(Arrays.asList(est1, est2));
+		cidadeRepository.save(cid1);
 	}
 }

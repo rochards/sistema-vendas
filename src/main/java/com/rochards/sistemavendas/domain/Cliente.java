@@ -39,6 +39,9 @@ public class Cliente implements Serializable {
     @CollectionTable(name = "telefone") // vai existir uma tabela chamada telefone
     private Set<String> telefones; // no diagrama de classes esse dado eh uma entidade fraca
 
+    @OneToMany(mappedBy = "cliente")
+    private List<Pedido> pedidos;
+
     public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
         this.id = id;
         this.nome = nome;
@@ -47,6 +50,7 @@ public class Cliente implements Serializable {
         this.tipo = tipo.getCod();
         this.enderecos = new ArrayList<>();
         this.telefones = new HashSet<>();
+        this.pedidos = new ArrayList<>();
     }
 
     public TipoCliente getTipo() {

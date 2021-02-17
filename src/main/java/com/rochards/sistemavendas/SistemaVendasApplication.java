@@ -1,6 +1,7 @@
 package com.rochards.sistemavendas;
 
 import com.rochards.sistemavendas.domain.*;
+import com.rochards.sistemavendas.domain.enums.EstadoPagamento;
 import com.rochards.sistemavendas.domain.enums.TipoCliente;
 import com.rochards.sistemavendas.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -30,6 +33,12 @@ public class SistemaVendasApplication implements CommandLineRunner {
 
     @Autowired
     private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private PedidoRepository pedidoRepository;
+
+    @Autowired
+    private PagamentoRepository pagamentoRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(SistemaVendasApplication.class, args);
@@ -75,5 +84,21 @@ public class SistemaVendasApplication implements CommandLineRunner {
 
         clienteRepository.save(cli1);
         enderecoRepository.saveAll(Arrays.asList(end1, end2));
+
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        Pedido ped1 = new Pedido(null, LocalDateTime.parse("30/12/2020 13:10:36", formatter), null, end1, cli1);
+        Pedido ped2 = new Pedido(null, LocalDateTime.parse("24/12/2020 09:10:55", formatter), null, end2, cli1);
+
+        Pagamento pgto1 = new PagamentoCartao(null, EstadoPagamento.QUITADO, ped1, 5);
+        ped1.setPagamento(pgto1);
+        Pagamento pgto2 = new PagamentoBoleto(null, EstadoPagamento.PENDENTE, ped2,
+                LocalDateTime.parse("27/12/2020 23:59:59", formatter), null);
+        ped2.setPagamento(pgto2);
+
+        cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+
+        pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+        pagamentoRepository.saveAll(Arrays.asList(pgto1, pgto2));
     }
 }

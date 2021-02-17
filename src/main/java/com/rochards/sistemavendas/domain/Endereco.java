@@ -1,5 +1,6 @@
 package com.rochards.sistemavendas.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,6 +28,7 @@ public class Endereco implements Serializable {
     private String bairro;
     private String cep;
 
+    @JsonBackReference
     @ManyToOne // um cliente tem muitos enderecos
     @JoinColumn(name = "cliente_id") // definindo a FK que ficara na tabela Cliente
     private Cliente cliente;

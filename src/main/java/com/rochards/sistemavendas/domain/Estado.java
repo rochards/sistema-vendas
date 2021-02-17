@@ -1,5 +1,6 @@
 package com.rochards.sistemavendas.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class Estado implements Serializable {
     private String nome;
     private String sigla;
 
+    @JsonBackReference
     // um estado tem varias cidades
     @OneToMany(mappedBy = "estado") // estado eh o nome do atributo que esta em Cidade
     private List<Cidade> cidades;

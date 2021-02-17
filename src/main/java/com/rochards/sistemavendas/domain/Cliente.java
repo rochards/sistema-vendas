@@ -1,5 +1,6 @@
 package com.rochards.sistemavendas.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rochards.sistemavendas.domain.enums.TipoCliente;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,6 +30,7 @@ public class Cliente implements Serializable {
     private String cpfOuCnpj;
     private Integer tipo; // no diagrama de classes isso eh um Enum. Estamos fazendo isso para salvar o valor no banco de dados
 
+    @JsonManagedReference
     // um cliente possui varios enderecos
     @OneToMany(mappedBy = "cliente") // indicando que na classe Endereco tem um atributo cliente que faz a associacao
     private List<Endereco> enderecos;

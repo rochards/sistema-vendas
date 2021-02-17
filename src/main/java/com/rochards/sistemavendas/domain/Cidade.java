@@ -1,5 +1,6 @@
 package com.rochards.sistemavendas.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,6 +24,7 @@ public class Cidade implements Serializable {
     private Integer id;
     private String nome;
 
+    @JsonManagedReference
     @ManyToOne // um estado tem muitas cidades
     @JoinColumn(name = "estado_id") // definindo a FK que ficara salva na tabela Cidade
     private Estado estado;

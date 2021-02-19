@@ -8,12 +8,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-@AllArgsConstructor
 public class Pedido implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,4 +35,20 @@ public class Pedido implements Serializable {
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "id.pedido")
+    private Set<ItemPedido> itens;
+
+    public Pedido(Integer id, LocalDateTime instante, Pagamento pagamento, Endereco enderecoEntrega, Cliente cliente) {
+        this.id = id;
+        this.instante = instante;
+        this.pagamento = pagamento;
+        this.enderecoEntrega = enderecoEntrega;
+        this.cliente = cliente;
+        this.itens = new HashSet<>();
+    }
+
+    public List<Produto> getProdutos() {
+        return itens.stream().map(ItemPedido::getProduto).collect(Collectors.toList());
+    }
 }

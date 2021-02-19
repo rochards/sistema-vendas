@@ -8,7 +8,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -32,10 +35,18 @@ public class Produto implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "categoria_id")) // FK da outra entidade na tabela produto_categoria
     private List<Categoria> categorias;
 
+    @OneToMany(mappedBy = "id.produto")
+    private Set<ItemPedido> itens;
+
     public Produto(Integer id, String nome, Double preco) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
         this.categorias = new ArrayList<>();
+        this.itens = new HashSet<>();
+    }
+
+    public List<Pedido> getPedidos() {
+        return itens.stream().map(ItemPedido::getPedido).collect(Collectors.toList());
     }
 }

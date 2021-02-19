@@ -1,5 +1,6 @@
 package com.rochards.sistemavendas.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rochards.sistemavendas.domain.enums.TipoCliente;
 import lombok.Data;
@@ -39,6 +40,7 @@ public class Cliente implements Serializable {
     @CollectionTable(name = "telefone") // vai existir uma tabela chamada telefone
     private Set<String> telefones; // no diagrama de classes esse dado eh uma entidade fraca
 
+    @JsonBackReference
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos;
 

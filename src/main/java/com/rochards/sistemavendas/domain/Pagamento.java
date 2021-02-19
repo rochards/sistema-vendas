@@ -1,5 +1,6 @@
 package com.rochards.sistemavendas.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.rochards.sistemavendas.domain.enums.EstadoPagamento;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,7 @@ public abstract class Pagamento implements Serializable {
     private Integer id;
     private Integer estado;
 
+    @JsonBackReference
     @OneToOne
     @MapsId // essa anotacao faz com q o id de Pagamento seja o mesmo do Pedido
     @JoinColumn(name = "pedido_id") // na tabela Pagamento ficara o id do Pedido

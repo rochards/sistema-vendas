@@ -1,6 +1,7 @@
 package com.rochards.sistemavendas.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -35,6 +36,7 @@ public class Produto implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "categoria_id")) // FK da outra entidade na tabela produto_categoria
     private List<Categoria> categorias;
 
+    @JsonIgnore // nao vou mostar os itens na resposta JSON
     @OneToMany(mappedBy = "id.produto")
     private Set<ItemPedido> itens;
 
@@ -46,6 +48,7 @@ public class Produto implements Serializable {
         this.itens = new HashSet<>();
     }
 
+    @JsonIgnore
     public List<Pedido> getPedidos() {
         return itens.stream().map(ItemPedido::getPedido).collect(Collectors.toList());
     }

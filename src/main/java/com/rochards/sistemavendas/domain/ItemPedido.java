@@ -1,5 +1,6 @@
 package com.rochards.sistemavendas.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.EmbeddedId;
@@ -14,6 +15,11 @@ public class ItemPedido implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /*
+    Nao vou serializar o id, assim nao chama o Produto e nem o Pedido, por isso anotei com @JsonIgnore.
+    Dessa forma eu nao preciso me preocupar com as anotacoes @JsonManagedReference e @JsonBackReference
+    */
+    @JsonIgnore
     @EmbeddedId
     @EqualsAndHashCode.Include
     private ItemPedidoPK id;
@@ -30,6 +36,7 @@ public class ItemPedido implements Serializable {
         this.preco = preco;
     }
 
+    @JsonIgnore
     public Pedido getPedido() {
         return id.getPedido();
     }

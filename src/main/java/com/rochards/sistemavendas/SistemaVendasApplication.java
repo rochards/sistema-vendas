@@ -40,6 +40,9 @@ public class SistemaVendasApplication implements CommandLineRunner {
     @Autowired
     private PagamentoRepository pagamentoRepository;
 
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(SistemaVendasApplication.class, args);
     }
@@ -100,5 +103,18 @@ public class SistemaVendasApplication implements CommandLineRunner {
 
         pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
         pagamentoRepository.saveAll(Arrays.asList(pgto1, pgto2));
+
+        ItemPedido item1 = new ItemPedido(ped1, prod1, 100.00, 1, 2000.00);
+        ItemPedido item2 = new ItemPedido(ped1, prod3, 0.00, 2, 80.00);
+        ItemPedido item3 = new ItemPedido(ped2, prod2, 50.00, 1, 800.00);
+
+        ped1.getItens().addAll(Arrays.asList(item1, item2));
+        ped2.getItens().add(item3);
+
+        prod1.getItens().add(item1);
+        prod2.getItens().add(item3);
+        prod3.getItens().add(item2);
+
+        itemPedidoRepository.saveAll(Arrays.asList(item1, item2, item3));
     }
 }
